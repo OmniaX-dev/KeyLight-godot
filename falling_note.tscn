@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bd823stxydsmo"]
+
+[ext_resource type="Script" uid="uid://db5ackvxfw6jg" path="res://falling_note.gd" id="1_isnp3"]
+
+[node name="FallingNote" type="Node2D"]
+script = ExtResource("1_isnp3")

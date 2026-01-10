@@ -1,0 +1,112 @@
+{
+	"style": {
+		"colors": {
+			"fallingWhiteNote": "#FF69CEFF",
+			"fallingWhiteNoteOutline": "#FF69CEFF",
+			"fallingWhiteNoteGlow": "#FF69CEFF",
+			"fallingBlackNote": "#FF0086FF",
+			"fallingBlackNoteOutline": "#FF0086FF",
+			"fallingBlackNoteGlow": "#FF0086FF",
+			"background": "#000000FF",
+			"whiteKeyPressed": "#FF7ACEFF",
+			"blackKeyPressed": "#873568FF",
+			"whiteKey": [200, 200, 200],
+			"blackKey": [20, 20, 20],
+			"whiteKeySeparator": [0, 0, 0],
+			"blackKeySeparator": [0, 0, 0],
+			"pianoLine1": [60, 10, 10],
+			"pianoLine2": [160, 10, 10],
+			"perNote": {
+				"C": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"C#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"D": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"D#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"E": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"F": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"F#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"G": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"G#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"A": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"A#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				},
+				"B": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0]
+				}
+			}
+		},
+		"dimensions": {
+			"whiteKeyWidth": 40.0,
+			"whiteKeyHeightMultiplier": 8.0,
+			"blackKeyWidth": 22.0,
+			"blackKeyHeightMultiplier": 9.0,
+			"blackKeyOffset": 4.0,
+			"virtualPianoX": 0.0,
+			"glowMargins": [10, 20, 10, 20],
+			"whiteKeyShrinkFactor": 8.0,
+			"blackKeyShrinkFactor": 0.0,
+			"fallingWhiteNoteOutlineWidth": 4,
+			"fallingWhiteNoteBorderRadius": 5.0,
+			"fallingBlackNoteOutlineWidth": 4,
+			"fallingBlackNoteBorderRadius": 5.0,
+			"textureCoordsPosition": [0.0, 0.0],
+			"textureCoordsScale": [1.0, 1.0],
+			"pixelsPerSecond": 250.0,
+			"noteFallingTime_seconds": 4.5
+		},
+		"blur": {
+			"type": "kawase",
+			"passes": 6,
+			"startRadius": 1.0,
+			"increment": 2.8,
+			"threshold": 0.2,
+			"bloomIntensity": 1.03,
+			"resolutionSubdivider": 1
+		},
+		"usePerNoteColors": false
+	}
+}
