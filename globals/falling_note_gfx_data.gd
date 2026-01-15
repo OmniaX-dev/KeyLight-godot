@@ -7,3 +7,4 @@ var outline_color : Color
 var glow_color : Color
 var outline_thickness : int
 var corner_radius : float
+var id : int

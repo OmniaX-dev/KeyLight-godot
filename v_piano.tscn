@@ -1,10 +1,63 @@
-[gd_scene load_steps=3 format=3 uid="uid://4glrblg58bjq"]
+[gd_scene load_steps=14 format=3 uid="uid://4glrblg58bjq"]
 
 [ext_resource type="Script" uid="uid://dyvxwape63wkc" path="res://v_keyboard.gd" id="1_3tllk"]
 [ext_resource type="Script" uid="uid://4wlxcda2l7s" path="res://main.gd" id="1_s44en"]
+[ext_resource type="Texture2D" uid="uid://ch42r8k8bkgwd" path="res://texture/simpleParticle.png" id="3_urf01"]
+[ext_resource type="Shader" uid="uid://dormnphsgt3e1" path="res://shaders/vignette.gdshader" id="4_bshd3"]
+
+[sub_resource type="Curve" id="Curve_urf01"]
+_data = [Vector2(0, 0), 0.0, 1.7871749, 0, 1, Vector2(0.51832056, 0.9263295), 0.8248561, 0.8248561, 0, 0, Vector2(0.80687016, 0.084786296), -0.9650817, -0.9650817, 0, 0, Vector2(1, 0), -0.4390119, 0.0, 1, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_bshd3"]
+curve = SubResource("Curve_urf01")
+
+[sub_resource type="Curve" id="Curve_bshd3"]
+_data = [Vector2(0, 0), 0.0, 4.889437, 0, 1, Vector2(0.12484624, 0.61042786), 0.0, 0.0, 0, 0, Vector2(0.9157442, 0.42127144), 0.0, 0.0, 0, 0, Vector2(1, 1), 6.868708, 0.0, 1, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_ppmkx"]
+curve = SubResource("Curve_bshd3")
+
+[sub_resource type="Curve" id="Curve_ppmkx"]
+_data = [Vector2(0, 1), 0.0, -0.28352216, 0, 1, Vector2(0.8694656, 0.7534872), 0.0, 0.0, 0, 0, Vector2(1, 0), -5.772326, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_8lcm0"]
+curve = SubResource("Curve_ppmkx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8lcm0"]
+lifetime_randomness = 0.4
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(800, 1, 1)
+radial_velocity_min = -150.41002
+radial_velocity_max = 204.73997
+radial_velocity_curve = SubResource("CurveTexture_ppmkx")
+gravity = Vector3(0, -98, 0)
+damping_max = 10.811001
+scale_min = 0.39999998
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_8lcm0")
+alpha_curve = SubResource("CurveTexture_bshd3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bshd3"]
+shader = ExtResource("4_bshd3")
+shader_parameter/top_height = 0.258000012255
+shader_parameter/bottom_height = 0.0830000039425
+shader_parameter/top_softness = 1.0
+shader_parameter/bottom_softness = 1.0
+shader_parameter/intensity = 0.9010000427975
+
+[sub_resource type="Environment" id="Environment_s44en"]
+background_mode = 3
+glow_enabled = true
+glow_blend_mode = 1
 
 [node name="VPiano" type="Node2D"]
 script = ExtResource("1_s44en")
+
+[node name="FallingNotes" type="Node2D" parent="."]
 
 [node name="VKeyboard" type="Control" parent="."]
 layout_mode = 3
@@ -16,3 +69,19 @@ grow_vertical = 2
 script = ExtResource("1_3tllk")
 
 [node name="StreamPlayer" type="AudioStreamPlayer" parent="VKeyboard"]
+
+[node name="LightBar" type="Node2D" parent="."]
+position = Vector2(1000, 500)
+
+[node name="LightBarParticles" type="GPUParticles2D" parent="LightBar"]
+modulate = Color(0, 0.807, 1.786, 1)
+amount = 3000
+texture = ExtResource("3_urf01")
+lifetime = 1.13
+process_material = SubResource("ParticleProcessMaterial_8lcm0")
+
+[node name="Vignette" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_bshd3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_s44en")

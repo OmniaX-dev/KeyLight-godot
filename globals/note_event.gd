@@ -13,3 +13,4 @@ var right_hand: bool = false
 var last: bool = false
 var first: bool = false
 var id: int = 0
+var progress : float = 0

@@ -49,4 +49,5 @@ toggle_fullscreen={
 
 [rendering]
 
+viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0, 0, 0.050980393, 1)
