@@ -2,11 +2,7 @@
 	"style": {
 		"colors": {
 			"fallingWhiteNote": "111111FF",
-			"fallingWhiteNoteOutline": "#999999FF",
-			"fallingWhiteNoteGlow": "#999999FF",
 			"fallingBlackNote": "#290000FF",
-			"fallingBlackNoteOutline": "#801212FF",
-			"fallingBlackNoteGlow": "#801212FF",
 			"background": "#000000FF",
 			"whiteKeyPressed": "#69D2FFFF",
 			"blackKeyPressed": "#1483B3FF",
@@ -18,75 +14,51 @@
 			"pianoLine2": "#7D0000FF",
 			"perNote": {
 				"C": {
-					"main": "#86FF6DFF",
-					"outline": "#86FF6DFF",
-					"glow": "#86FF6DFF",
+					"color": "#86FF6DFF",
 					"use": "true"
 				},
 				"C#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"D": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"D#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"E": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"F": {
-					"main": "#FF6DE2FF",
-					"outline": "#FF6DE2FF",
-					"glow": "#FF6DE2FF",
+					"color": "#FF6DE2FF",
 					"use": "true"
 				},
 				"F#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"G": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"G#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"A": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"A#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"B": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				}
 			}
@@ -119,6 +91,7 @@
 			"bloomIntensity": 1.03,
 			"resolutionSubdivider": 1
 		},
-		"usePerNoteColors": "false"
+		"usePerNoteColors": "false",
+		"useFilledNotes": "false"
 	}
 }

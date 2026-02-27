@@ -31,17 +31,55 @@ func save(path: String) -> bool:
 # Internal dotted-path lookup
 # -------------------------------------------------------------------------
 
-func _get_value(path: String, default_value = null):
+## Resolves a dot-separated path in a nested Variant structure (Dictionary or Array).
+## Supports numeric indices for arrays (as strings, e.g. "players.2.score").
+##
+## Example paths:
+##   "settings.audio.volume"           → dict["settings"]["audio"]["volume"]
+##   "characters.1.name"               → array[1]["name"]
+##   "inventory.weapons.0.damage"      → dict["inventory"]["weapons"][0]["damage"]
+##
+## @param path          Dot-separated path (e.g. "someObject.someArray.1.name")
+## @param default_value Value to return if path is invalid or not found
+## @return              The found value or default_value
+func _get_value(path: String, default_value = null) -> Variant:
+	if path.is_empty():
+		return default_value
+
 	var parts := path.split(".")
 	var current: Variant = _data
 
-	for p in parts:
-		if typeof(current) != TYPE_DICTIONARY:
-			return default_value
-		if not current.has(p):
-			return default_value
-		current = current[p]
+	for part in parts:
+		part = part.strip_edges()  # just in case
 
+		if current == null:
+			return default_value
+
+		# ── Dictionary case ────────────────────────────────────────
+		if typeof(current) == TYPE_DICTIONARY:
+			if not current.has(part):
+				return default_value
+			current = current[part]
+			continue
+
+		# ── Array case ─────────────────────────────────────────────
+		if typeof(current) == TYPE_ARRAY:
+			# Try to interpret the part as an integer index
+			var index := part.to_int()
+			# to_int() returns 0 on failure, but we also allow "0"
+			# so we check if the conversion makes sense
+			if str(index) == part and index >= 0 and index < current.size():
+				current = current[index]
+				continue
+			else:
+				# Not a valid array index → path doesn't exist
+				return default_value
+
+		# If we reach here, current is neither Dictionary nor Array
+		# (or is something like int/float/String/etc.)
+		return default_value
+
+	# If we successfully walked the whole path
 	return current
 
 
@@ -216,6 +254,17 @@ func get_rect_array(name: String) -> Array[Rect2]:
 
 
 func get_vec2_array(name: String) -> Array[Vector2]:
+	var v = _get_value(name)
+	if v is Array:
+		var out: Array[Vector2] = []
+		for r in v:
+			if r is Array and r.size() >= 2:
+				out.append(Vector2(r[0], r[1]))
+		return out
+	return []
+
+
+func get_object_array(name: String) -> Array[Vector2]:
 	var v = _get_value(name)
 	if v is Array:
 		var out: Array[Vector2] = []

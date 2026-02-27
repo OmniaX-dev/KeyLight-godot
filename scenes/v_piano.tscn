@@ -54,13 +54,13 @@ shader_parameter/top_softness = 1.0
 shader_parameter/bottom_softness = 1.0
 shader_parameter/intensity = 0.9010000427975
 
-[sub_resource type="Environment" id="Environment_s44en"]
-background_mode = 3
-glow_enabled = true
-
 [sub_resource type="LabelSettings" id="LabelSettings_d0ei3"]
 font_size = 32
 font_color = Color(0.094684996, 0.09468501, 0.09468501, 1)
+
+[sub_resource type="Environment" id="Environment_s44en"]
+background_mode = 3
+glow_enabled = true
 
 [node name="VPiano" type="Node2D" unique_id=675364801]
 script = ExtResource("1_xeoph")
@@ -100,18 +100,9 @@ script = ExtResource("2_5mgbg")
 
 [node name="StreamPlayer" type="AudioStreamPlayer" parent="VKeyboard" unique_id=1093367070]
 
-[node name="LightBar" type="Node2D" parent="." unique_id=1287282222]
-position = Vector2(1000, 500)
-
 [node name="Vignette" type="ColorRect" parent="." unique_id=537411523]
 material = SubResource("ShaderMaterial_bshd3")
 script = ExtResource("5_5mgbg")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1246466949]
-environment = SubResource("Environment_s44en")
-
-[node name="Sprite2D2" parent="." unique_id=467538633 instance=ExtResource("9_0prlp")]
-visible = false
 
 [node name="ProjNameLabel" type="Label" parent="." unique_id=246113796]
 offset_left = 23.0
@@ -122,3 +113,9 @@ size_flags_horizontal = 0
 label_settings = SubResource("LabelSettings_d0ei3")
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1246466949]
+environment = SubResource("Environment_s44en")
+
+[node name="Sprite2D2" parent="." unique_id=467538633 instance=ExtResource("9_0prlp")]
+visible = false

@@ -23,7 +23,7 @@ func render(vpiano : Control):
 			var y = vpd.vpy()
 			var color = vpd.white_key_color
 			if piano_keys[info.key_index].pressed:
-				color = vpd.get_note_base_color(info)
+				color = vpd.get_note_color(info)
 			vpiano.draw_rect(Rect2(x, y, vpd.white_key_w(), vpd.white_key_h()), color, true)
 			vpiano.draw_rect(Rect2(x, y, vpd.white_key_w(), vpd.white_key_h()), vpd.white_key_split_color, false)
 			white_index += 1
@@ -42,5 +42,5 @@ func render(vpiano : Control):
 			var y = vpd.vpy()
 			var color = vpd.black_key_color
 			if piano_keys[info.key_index].pressed:
-				color = vpd.get_note_base_color(info)
+				color = vpd.get_note_color(info)
 			Primitives.fill_rounded_rect(vpiano, Rect2(x, y, vpd.black_key_w(), vpd.black_key_h()), color, 0, 0, 8, 8)

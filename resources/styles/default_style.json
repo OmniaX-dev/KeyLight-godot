@@ -1,12 +1,8 @@
 {
 	"style": {
 		"colors": {
-			"fallingWhiteNote": "0000FF00",
-			"fallingWhiteNoteOutline": "#0000FFFF",
-			"fallingWhiteNoteGlow": "#0000FFFF",
-			"fallingBlackNote": "#0000FF00",
-			"fallingBlackNoteOutline": "#0000FFFF",
-			"fallingBlackNoteGlow": "#0000FFFF",
+			"fallingWhiteNote": "0000FFFF",
+			"fallingBlackNote": "#0000FFFF",
 			"background": "#000000FF",
 			"whiteKeyPressed": "#4040FFFF",
 			"blackKeyPressed": "#101020FF",
@@ -19,75 +15,51 @@
 			"fog": "#0000FF10",
 			"perNote": {
 				"C": {
-					"main": "#86FF6DFF",
-					"outline": "#86FF6DFF",
-					"glow": "#86FF6DFF",
+					"color": "#86FF6DFF",
 					"use": "true"
 				},
 				"C#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"D": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"D#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"E": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"F": {
-					"main": "#FF6DE2FF",
-					"outline": "#FF6DE2FF",
-					"glow": "#FF6DE2FF",
+					"color": "#FF6DE2FF",
 					"use": "true"
 				},
 				"F#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"G": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"G#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"A": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"A#": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				},
 				"B": {
-					"main": [0, 0, 0],
-					"outline": [0, 0, 0],
-					"glow": [0, 0, 0],
+					"color": [0, 0, 0],
 					"use": "false"
 				}
 			}
@@ -115,6 +87,7 @@
 			"height": 300.0,
 			"fade_percent": 0.8
 		},
-		"usePerNoteColors": "false"
+		"usePerNoteColors": "false",
+		"useFilledNotes": "false"
 	}
 }

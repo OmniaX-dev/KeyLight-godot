@@ -96,7 +96,7 @@ static func _ticks_to_seconds(tick: int, tpq: int, segments: Array) -> float:
 # Main MIDI parser (midifile-compatible)
 # -------------------------------------------------------------------------
 
-static func parse_file(path: String) -> Array:
+static func parse_file(path: String) -> Array[NoteEvent]:
 	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		push_error("Failed to open MIDI file: %s" % path)
@@ -253,7 +253,7 @@ static func parse_file(path: String) -> Array:
 
 	# --- Link note pairs (per channel + pitch, LIFO) ----------------------
 	var stacks := {}  # key: int (channel<<8 | pitch) -> Array of ev dicts
-	var notes: Array = []
+	var notes: Array[NoteEvent] = []
 
 	for ev in note_events:
 		var key : int = (ev["channel"] << 8) | ev["pitch"]

@@ -4,19 +4,7 @@ extends RefCounted
 const BASE_WIDTH  := 2080
 const BASE_HEIGHT := 1400
 
-enum NoteColor {
-	C_Main, Csharp_Main, D_Main, Dsharp_Main,
-	E_Main, F_Main, Fsharp_Main, G_Main,
-	Gsharp_Main, A_Main, Asharp_Main, B_Main,
-
-	C_Outline, Csharp_Outline, D_Outline, Dsharp_Outline,
-	E_Outline, F_Outline, Fsharp_Outline, G_Outline,
-	Gsharp_Outline, A_Outline, Asharp_Outline, B_Outline,
-
-	C_Glow, Csharp_Glow, D_Glow, Dsharp_Glow,
-	E_Glow, F_Glow, Fsharp_Glow, G_Glow,
-	Gsharp_Glow, A_Glow, Asharp_Glow, B_Glow
-}
+enum NoteColor { C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp, A, Asharp, B }
 
 # --- Internal state ---------------------------------------------------------
 var pixels_per_second: float = 0.0
@@ -52,17 +40,15 @@ var black_key_color: Color
 var black_key_pressed_color: Color
 var black_key_split_color: Color
 var falling_white_note_color: Color
-var falling_white_note_outline_color: Color
-var falling_white_note_glow_color: Color
 var falling_black_note_color: Color
-var falling_black_note_outline_color: Color
-var falling_black_note_glow_color: Color
 var piano_line_color1: Color
 var piano_line_color2: Color
 var use_per_note_colors: bool = false
+var use_filled_notes: bool = true
 var fog_color: Color
-var per_note_colors = []   # size 36
-var per_note_colors_use = []   # size 36
+var per_note_colors = []   # size 12
+var per_note_colors_use = []   # size 12
+var per_id_colors : Dictionary[int, Color] = { }
 
 
 # --- Methods ----------------------------------------------------------------
@@ -91,12 +77,8 @@ func _init():
 	scale_y = 1.0
 
 	falling_white_note_color = Color8(20, 110, 170)
-	falling_white_note_outline_color = Color8(50, 140, 200)
-	falling_white_note_glow_color = Color8(50, 140, 200)
 
 	falling_black_note_color = Color8(0, 50, 75)
-	falling_black_note_outline_color = Color8(30, 80, 105)
-	falling_black_note_glow_color = Color8(30, 80, 105)
 
 	piano_line_color1 = Color8(60, 10, 10)
 	piano_line_color2 = Color8(160, 10, 10)
@@ -124,6 +106,7 @@ func _init():
 		per_note_colors[i] = Color8(0, 0, 0)
 		per_note_colors_use[i] = false
 
+	per_id_colors.clear()
 	recalc__key_offsets()
 
 func update_scale(width: int, height: int):
@@ -168,17 +151,18 @@ func key_offsets():
 func is_per_note_color_used(noteName : NoteColor) -> bool:
 	return use_per_note_colors && per_note_colors_use[noteName]
 
-func get_note_base_color(noteInfo : NoteInfo) -> Color:
-	if is_per_note_color_used(noteInfo.note_in_octave):
+func add_voice_note_colors(note_id : int, color : Color):
+	per_id_colors[note_id] = color
+	
+func get_note_color(noteInfo : NoteInfo, note_id = -1) -> Color:
+	if note_id >= 0:
+		if note_id in per_id_colors:
+			return per_id_colors[note_id]
+	if use_per_note_colors:
 		return per_note_colors[noteInfo.note_in_octave]
-	var col = falling_black_note_outline_color
 	if noteInfo.is_white_key():
-		col = falling_white_note_outline_color
-	if col.a8 == 0:
-		col = falling_black_note_outline_color
-		if noteInfo.is_white_key():
-			col = falling_white_note_outline_color
-	return col
+		return falling_white_note_color
+	return falling_black_note_color
 
 func recalc__key_offsets():
 	_key_offsets.clear()
@@ -205,15 +189,12 @@ func load_from_json(styleJson : JsonFile):
 	self.black_key_height = self.black_key_width * mul;
 	self.black_key_offset = styleJson.get_double("style.dimensions.blackKeyOffset");
 	self.virtual_piano_x = styleJson.get_double("style.dimensions.virtualPianoX");
-	# self.glowMargins = styleJson.get_rect("style.dimensions.glowMargins");
 	self.white_key_shrink_factor = styleJson.get_double("style.dimensions.whiteKeyShrinkFactor");
 	self.black_key_shrink_factor = styleJson.get_double("style.dimensions.blackKeyShrinkFactor");
 	self.falling_white_note_outline_width = styleJson.get_int("style.dimensions.fallingWhiteNoteOutlineWidth");
 	self.falling_white_note_border_radius = styleJson.get_double("style.dimensions.fallingWhiteNoteBorderRadius");
 	self.falling_black_note_outline_width = styleJson.get_int("style.dimensions.fallingBlackNoteOutlineWidth");
 	self.falling_black_note_border_radius = styleJson.get_double("style.dimensions.fallingBlackNoteBorderRadius");
-	# self.texCoordsPos = styleJson.get_vec2("style.dimensions.textureCoordsPosition");
-	# self.texCoordsScale = styleJson.get_vec2("style.dimensions.textureCoordsScale");
 	self.pixels_per_second = styleJson.get_double("style.dimensions.pixelsPerSecond");
 	self.white_key_width = styleJson.get_double("style.dimensions.whiteKeyWidth");
 	self.falling_time_s = styleJson.get_double("style.dimensions.noteFallingTime_seconds");
@@ -222,13 +203,10 @@ func load_from_json(styleJson : JsonFile):
 	self.falling_time_s = styleJson.get_double("style.dimensions.noteFallingTime_seconds");
 
 	self.use_per_note_colors = styleJson.get_bool("style.usePerNoteColors");
+	self.use_filled_notes = styleJson.get_bool("style.useFilledNotes");
 
 	self.falling_white_note_color = styleJson.get_color("style.colors.fallingWhiteNote");
-	self.falling_white_note_outline_color = styleJson.get_color("style.colors.fallingWhiteNoteOutline");
-	self.falling_white_note_glow_color = styleJson.get_color("style.colors.fallingWhiteNoteGlow");
 	self.falling_black_note_color = styleJson.get_color("style.colors.fallingBlackNote");
-	self.falling_black_note_outline_color = styleJson.get_color("style.colors.fallingBlackNoteOutline");
-	self.falling_black_note_glow_color = styleJson.get_color("style.colors.fallingBlackNoteGlow");
 	self.background_color = styleJson.get_color("style.colors.background");
 	self.white_key_pressed_color = styleJson.get_color("style.colors.whiteKeyPressed");
 	self.black_key_pressed_color = styleJson.get_color("style.colors.blackKeyPressed");
@@ -240,88 +218,40 @@ func load_from_json(styleJson : JsonFile):
 	self.piano_line_color2 = styleJson.get_color("style.colors.pianoLine2");
 	self.fog_color = styleJson.get_color("style.colors.fog");
 
-	self.per_note_colors[NoteColor.C_Main] = styleJson.get_color("style.colors.perNote.C.main");
-	self.per_note_colors[NoteColor.C_Outline] = styleJson.get_color("style.colors.perNote.C.outline");
-	self.per_note_colors[NoteColor.C_Glow] = styleJson.get_color("style.colors.perNote.C.glow");
-	self.per_note_colors_use[NoteColor.C_Main] = styleJson.get_bool("style.colors.perNote.C.use");
-	self.per_note_colors_use[NoteColor.C_Outline] = styleJson.get_bool("style.colors.perNote.C.use");
-	self.per_note_colors_use[NoteColor.C_Glow] = styleJson.get_bool("style.colors.perNote.C.use");
+	self.per_note_colors[NoteColor.C] = styleJson.get_color("style.colors.perNote.C.color");
+	self.per_note_colors_use[NoteColor.C] = styleJson.get_bool("style.colors.perNote.C.use");
 
-	self.per_note_colors[NoteColor.Csharp_Main] = styleJson.get_color("style.colors.perNote.C#.main");
-	self.per_note_colors[NoteColor.Csharp_Outline] = styleJson.get_color("style.colors.perNote.C#.outline");
-	self.per_note_colors[NoteColor.Csharp_Glow] = styleJson.get_color("style.colors.perNote.C#.glow");
-	self.per_note_colors_use[NoteColor.Csharp_Main]    = styleJson.get_bool("style.colors.perNote.C#.use")
-	self.per_note_colors_use[NoteColor.Csharp_Outline] = styleJson.get_bool("style.colors.perNote.C#.use")
-	self.per_note_colors_use[NoteColor.Csharp_Glow]    = styleJson.get_bool("style.colors.perNote.C#.use")
+	self.per_note_colors[NoteColor.Csharp] = styleJson.get_color("style.colors.perNote.C#.color");
+	self.per_note_colors_use[NoteColor.Csharp] = styleJson.get_bool("style.colors.perNote.C#.use")
 
-	self.per_note_colors[NoteColor.D_Main] = styleJson.get_color("style.colors.perNote.D.main");
-	self.per_note_colors[NoteColor.D_Outline] = styleJson.get_color("style.colors.perNote.D.outline");
-	self.per_note_colors[NoteColor.D_Glow] = styleJson.get_color("style.colors.perNote.D.glow");
-	self.per_note_colors_use[NoteColor.D_Main]    = styleJson.get_bool("style.colors.perNote.D.use")
-	self.per_note_colors_use[NoteColor.D_Outline] = styleJson.get_bool("style.colors.perNote.D.use")
-	self.per_note_colors_use[NoteColor.D_Glow]    = styleJson.get_bool("style.colors.perNote.D.use")
+	self.per_note_colors[NoteColor.D] = styleJson.get_color("style.colors.perNote.D.color");
+	self.per_note_colors_use[NoteColor.D] = styleJson.get_bool("style.colors.perNote.D.use")
 
-	self.per_note_colors[NoteColor.Dsharp_Main] = styleJson.get_color("style.colors.perNote.D#.main");
-	self.per_note_colors[NoteColor.Dsharp_Outline] = styleJson.get_color("style.colors.perNote.D#.outline");
-	self.per_note_colors[NoteColor.Dsharp_Glow] = styleJson.get_color("style.colors.perNote.D#.glow");
-	self.per_note_colors_use[NoteColor.Dsharp_Main]    = styleJson.get_bool("style.colors.perNote.D#.use")
-	self.per_note_colors_use[NoteColor.Dsharp_Outline] = styleJson.get_bool("style.colors.perNote.D#.use")
-	self.per_note_colors_use[NoteColor.Dsharp_Glow]    = styleJson.get_bool("style.colors.perNote.D#.use")
+	self.per_note_colors[NoteColor.Dsharp] = styleJson.get_color("style.colors.perNote.D#.color");
+	self.per_note_colors_use[NoteColor.Dsharp] = styleJson.get_bool("style.colors.perNote.D#.use")
 
-	self.per_note_colors[NoteColor.E_Main] = styleJson.get_color("style.colors.perNote.E.main");
-	self.per_note_colors[NoteColor.E_Outline] = styleJson.get_color("style.colors.perNote.E.outline");
-	self.per_note_colors[NoteColor.E_Glow] = styleJson.get_color("style.colors.perNote.E.glow");
-	self.per_note_colors_use[NoteColor.E_Main]    = styleJson.get_bool("style.colors.perNote.E.use")
-	self.per_note_colors_use[NoteColor.E_Outline] = styleJson.get_bool("style.colors.perNote.E.use")
-	self.per_note_colors_use[NoteColor.E_Glow]    = styleJson.get_bool("style.colors.perNote.E.use")
+	self.per_note_colors[NoteColor.E] = styleJson.get_color("style.colors.perNote.E.color");
+	self.per_note_colors_use[NoteColor.E] = styleJson.get_bool("style.colors.perNote.E.use")
 
-	self.per_note_colors[NoteColor.F_Main] = styleJson.get_color("style.colors.perNote.F.main");
-	self.per_note_colors[NoteColor.F_Outline] = styleJson.get_color("style.colors.perNote.F.outline");
-	self.per_note_colors[NoteColor.F_Glow] = styleJson.get_color("style.colors.perNote.F.glow");
-	self.per_note_colors_use[NoteColor.F_Main]    = styleJson.get_bool("style.colors.perNote.F.use")
-	self.per_note_colors_use[NoteColor.F_Outline] = styleJson.get_bool("style.colors.perNote.F.use")
-	self.per_note_colors_use[NoteColor.F_Glow]    = styleJson.get_bool("style.colors.perNote.F.use")
+	self.per_note_colors[NoteColor.F] = styleJson.get_color("style.colors.perNote.F.color");
+	self.per_note_colors_use[NoteColor.F] = styleJson.get_bool("style.colors.perNote.F.use")
 
-	self.per_note_colors[NoteColor.Fsharp_Main] = styleJson.get_color("style.colors.perNote.F#.main");
-	self.per_note_colors[NoteColor.Fsharp_Outline] = styleJson.get_color("style.colors.perNote.F#.outline");
-	self.per_note_colors[NoteColor.Fsharp_Glow] = styleJson.get_color("style.colors.perNote.F#.glow");
-	self.per_note_colors_use[NoteColor.Fsharp_Main]    = styleJson.get_bool("style.colors.perNote.F#.use")
-	self.per_note_colors_use[NoteColor.Fsharp_Outline] = styleJson.get_bool("style.colors.perNote.F#.use")
-	self.per_note_colors_use[NoteColor.Fsharp_Glow]    = styleJson.get_bool("style.colors.perNote.F#.use")
+	self.per_note_colors[NoteColor.Fsharp] = styleJson.get_color("style.colors.perNote.F#.color");
+	self.per_note_colors_use[NoteColor.Fsharp] = styleJson.get_bool("style.colors.perNote.F#.use")
 
-	self.per_note_colors[NoteColor.G_Main] = styleJson.get_color("style.colors.perNote.G.main");
-	self.per_note_colors[NoteColor.G_Outline] = styleJson.get_color("style.colors.perNote.G.outline");
-	self.per_note_colors[NoteColor.G_Glow] = styleJson.get_color("style.colors.perNote.G.glow");
-	self.per_note_colors_use[NoteColor.G_Main]    = styleJson.get_bool("style.colors.perNote.G.use")
-	self.per_note_colors_use[NoteColor.G_Outline] = styleJson.get_bool("style.colors.perNote.G.use")
-	self.per_note_colors_use[NoteColor.G_Glow]    = styleJson.get_bool("style.colors.perNote.G.use")
+	self.per_note_colors[NoteColor.G] = styleJson.get_color("style.colors.perNote.G.color");
+	self.per_note_colors_use[NoteColor.G] = styleJson.get_bool("style.colors.perNote.G.use")
 
-	self.per_note_colors[NoteColor.Gsharp_Main] = styleJson.get_color("style.colors.perNote.G#.main");
-	self.per_note_colors[NoteColor.Gsharp_Outline] = styleJson.get_color("style.colors.perNote.G#.outline");
-	self.per_note_colors[NoteColor.Gsharp_Glow] = styleJson.get_color("style.colors.perNote.G#.glow");
-	self.per_note_colors_use[NoteColor.Gsharp_Main]    = styleJson.get_bool("style.colors.perNote.G#.use")
-	self.per_note_colors_use[NoteColor.Gsharp_Outline] = styleJson.get_bool("style.colors.perNote.G#.use")
-	self.per_note_colors_use[NoteColor.Gsharp_Glow]    = styleJson.get_bool("style.colors.perNote.G#.use")
+	self.per_note_colors[NoteColor.Gsharp] = styleJson.get_color("style.colors.perNote.G#.color");
+	self.per_note_colors_use[NoteColor.Gsharp] = styleJson.get_bool("style.colors.perNote.G#.use")
 
-	self.per_note_colors[NoteColor.A_Main] = styleJson.get_color("style.colors.perNote.A.main");
-	self.per_note_colors[NoteColor.A_Outline] = styleJson.get_color("style.colors.perNote.A.outline");
-	self.per_note_colors[NoteColor.A_Glow] = styleJson.get_color("style.colors.perNote.A.glow");
-	self.per_note_colors_use[NoteColor.A_Main]    = styleJson.get_bool("style.colors.perNote.A.use")
-	self.per_note_colors_use[NoteColor.A_Outline] = styleJson.get_bool("style.colors.perNote.A.use")
-	self.per_note_colors_use[NoteColor.A_Glow]    = styleJson.get_bool("style.colors.perNote.A.use")
+	self.per_note_colors[NoteColor.A] = styleJson.get_color("style.colors.perNote.A.color");
+	self.per_note_colors_use[NoteColor.A] = styleJson.get_bool("style.colors.perNote.A.use")
 
-	self.per_note_colors[NoteColor.Asharp_Main] = styleJson.get_color("style.colors.perNote.A#.main");
-	self.per_note_colors[NoteColor.Asharp_Outline] = styleJson.get_color("style.colors.perNote.A#.outline");
-	self.per_note_colors[NoteColor.Asharp_Glow] = styleJson.get_color("style.colors.perNote.A#.glow");
-	self.per_note_colors_use[NoteColor.Asharp_Main]    = styleJson.get_bool("style.colors.perNote.A#.use")
-	self.per_note_colors_use[NoteColor.Asharp_Outline] = styleJson.get_bool("style.colors.perNote.A#.use")
-	self.per_note_colors_use[NoteColor.Asharp_Glow]    = styleJson.get_bool("style.colors.perNote.A#.use")
+	self.per_note_colors[NoteColor.Asharp] = styleJson.get_color("style.colors.perNote.A#.color");
+	self.per_note_colors_use[NoteColor.Asharp] = styleJson.get_bool("style.colors.perNote.A#.use")
 
-	self.per_note_colors[NoteColor.B_Main] = styleJson.get_color("style.colors.perNote.B.main");
-	self.per_note_colors[NoteColor.B_Outline] = styleJson.get_color("style.colors.perNote.B.outline");
-	self.per_note_colors[NoteColor.B_Glow] = styleJson.get_color("style.colors.perNote.B.glow");
-	self.per_note_colors_use[NoteColor.B_Main]    = styleJson.get_bool("style.colors.perNote.B.use")
-	self.per_note_colors_use[NoteColor.B_Outline] = styleJson.get_bool("style.colors.perNote.B.use")
-	self.per_note_colors_use[NoteColor.B_Glow]    = styleJson.get_bool("style.colors.perNote.B.use")
+	self.per_note_colors[NoteColor.B] = styleJson.get_color("style.colors.perNote.B.color");
+	self.per_note_colors_use[NoteColor.B] = styleJson.get_bool("style.colors.perNote.B.use")
 
 	self.recalc__key_offsets();

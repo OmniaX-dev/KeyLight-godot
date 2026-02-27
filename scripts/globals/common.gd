@@ -1,6 +1,7 @@
 class_name Common
 extends RefCounted
 
+
 static func get_current_time_us() -> float:
 	return Time.get_ticks_usec()
 
@@ -38,12 +39,10 @@ static func apply_color_intensity(base: Color, intensity_ev: float) -> Color:
 		1.0
 	)
 
-
 static func linear_to_srgb(x: float) -> float:
 	if x <= 0.0031308:
 		return 12.92 * x
 	return 1.055 * pow(x, 1.0 / 2.4) - 0.055
-
 
 static func build_note_gfx_data(vpd : VirtualPianoData, noteEvent : NoteEvent) -> FallingNoteGfxData:
 	var info : NoteInfo =  MidiParser.get_note_info(noteEvent.pitch);
@@ -51,39 +50,21 @@ static func build_note_gfx_data(vpd : VirtualPianoData, noteEvent : NoteEvent) -
 	var y : float = -h + noteEvent.progress * (vpd.vpy() + h)
 	var x : float = vpd.key_offsets()[info.key_index] + (vpd.white_key_shrink() / 2.0)
 	if not info.is_white_key():
-		var note_color = vpd.falling_black_note_color
-		var outline_color = vpd.falling_black_note_outline_color
-		var glow_color = vpd.falling_black_note_glow_color
-		if vpd.is_per_note_color_used(info.note_in_octave):
-			note_color = vpd.per_note_colors[info.note_in_octave]
-		if vpd.is_per_note_color_used(info.note_in_octave + 12):
-			outline_color = vpd.per_note_colors[info.note_in_octave + 12]
-		if vpd.is_per_note_color_used(info.note_in_octave + 24):
-			glow_color = vpd.per_note_colors[info.note_in_octave + 24]
+		var note_color = vpd.get_note_color(info, noteEvent.id)
 		var gfx_data : FallingNoteGfxData = FallingNoteGfxData.new()
 		gfx_data.rect = Rect2(x, y, vpd.black_key_w() - vpd.black_key_shrink(), h)
 		gfx_data.fill_color = note_color
-		gfx_data.outline_color = outline_color
-		gfx_data.glow_color = glow_color
+		gfx_data.filled = vpd.use_filled_notes
 		gfx_data.outline_thickness = vpd.falling_black_note_outline_width
 		gfx_data.corner_radius = vpd.falling_black_note_border_radius
 		gfx_data.id = noteEvent.id
 		return gfx_data
 	else:
-		var note_color = vpd.falling_white_note_color
-		var outline_color = vpd.falling_white_note_outline_color
-		var glow_color = vpd.falling_white_note_glow_color
-		if vpd.is_per_note_color_used(info.note_in_octave):
-			note_color = vpd.per_note_colors[info.note_in_octave]
-		if vpd.is_per_note_color_used(info.note_in_octave + 12):
-			outline_color = vpd.per_note_colors[info.note_in_octave + 12]
-		if vpd.is_per_note_color_used(info.note_in_octave + 24):
-			glow_color = vpd.per_note_colors[info.note_in_octave + 24]
+		var note_color = vpd.get_note_color(info, noteEvent.id)
 		var gfx_data : FallingNoteGfxData = FallingNoteGfxData.new()
 		gfx_data.rect = Rect2(x, y, vpd.white_key_w() - vpd.white_key_shrink(), h)
 		gfx_data.fill_color = note_color
-		gfx_data.outline_color = outline_color
-		gfx_data.glow_color = glow_color
+		gfx_data.filled = vpd.use_filled_notes
 		gfx_data.outline_thickness = vpd.falling_white_note_outline_width
 		gfx_data.corner_radius = vpd.falling_white_note_border_radius
 		gfx_data.id = noteEvent.id

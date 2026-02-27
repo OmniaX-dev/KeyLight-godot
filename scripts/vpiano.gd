@@ -30,54 +30,6 @@ var first_note_played : bool = false
 var first_note_start_time : float = 0.0
 # ======================================================================================
 
-var LH_voice = [
-	10, 3, 9, 15, 12, 16, 21, 29, 30, 35, 32, 36, 49, 41, 48, 53,
-	56, 58, 69, 63, 68, 74, 79, 80, 93, 86, 94, 101, 96, 102, 112,
-	107, 113, 123, 118, 124, 130, 127, 132, 135, 139, 143, 152, 145,
-	153, 157, 162, 161, 173, 172, 166, 182, 179, 183, 189, 196, 197,
-	202, 199, 203, 213, 208
-]
-var Error_voice = [
-	174, 216, 229, 230, 231, 215, 226, 222, 219, 224, 214, 220, 217,
-	227, 218, 221, 223, 225, 228, 62, 211
-]
-var RH_lower_voice = [
-	0, 2, 4, 5, 8, 11, 13, 14, 17, 19, 20, 22, 24, 25, 27, 31, 33,
-	34, 37, 40, 38, 42, 44, 46, 50, 52, 54, 55, 59, 60, 64, 66, 70,
-	71, 73, 75, 76, 77, 78, 81, 82, 83, 84, 87, 88, 90, 92, 95, 97,
-	99, 100, 103, 105, 109, 110, 114, 116, 119, 121, 125, 128, 129,
-	133, 134, 136, 138, 142, 144, 146, 148, 149, 155, 156, 158, 159,
-	160, 164, 165, 163, 168, 170, 175, 176, 178, 180, 181, 184, 187,
-	186, 188, 192, 191, 194, 198, 200, 201, 204, 207, 205, 209
-]
-var RH_upper_voice = [
-	1, 6, 7, 18, 23, 26, 28, 39, 43, 45, 47, 51, 57, 61, 65, 67, 72,
-	85, 89, 91, 98, 104, 106, 108, 111, 115, 117, 120, 122, 126, 131,
-	137, 140, 141, 147, 150, 151, 154, 167, 169, 171, 177, 185, 190,
-	193, 195, 206, 210, 212
-]
-
-func get_note_color(note_id) -> Color:
-	for voice in LH_voice:
-		if voice == note_id:
-			return Color.DARK_RED
-	for voice in RH_lower_voice:
-		if voice == note_id:
-			return Color.CORNFLOWER_BLUE
-	for voice in RH_upper_voice:
-		if voice == note_id:
-			return Color.GREEN_YELLOW
-	for voice in Error_voice:
-		if voice == note_id:
-			return Color.SLATE_GRAY
-	return Color.DARK_GRAY
-	#for note in vpr.midi_notes:
-		#var found = false
-		#for voice in LH_voice:
-			#if voice == note.id:
-				#found = true
-				#var info : NoteInfo = MidiParser.get_note_info(note.pitch)
-
 
 # Builtin methods
 func _ready() -> void:
@@ -89,7 +41,7 @@ func _ready() -> void:
 	note_off_signal.connect(on_note_off)
 	
 	if project_file.is_loaded():
-		vpr.open_midi_file(project_file.midi_file_path)
+		vpr.midi_notes = project_file.load_midi(vpd)
 		vpr.open_music_file(project_file.audio_file_path)
 		$StreamPlayer.stream = vpr.audioManager.audio_stream
 		$StreamPlayer.volume_db = -4
@@ -106,12 +58,6 @@ func _physics_process(_delta):
 
 func _draw():
 	vpk.render(self)
-	#var r : Rect2
-	#r.size.x = $TestParticles.process_material.emission_box_extents.x
-	#r.size.y = $TestParticles.process_material.emission_box_extents.y
-	#r.position.x = $TestParticles.position.x
-	#r.position.y = $TestParticles.position.y
-	#draw_rect(r, Color.RED, false)
 
 
 # Update logic
@@ -196,13 +142,9 @@ func calculate_falling_notes(current_time : float):
 
 func spawn_note_node(note: NoteEvent):
 	var info = MidiParser.get_note_info(note.pitch)
-
 	var note_scn = vpr.note_scene.instantiate()
 	var note_gfx = Common.build_note_gfx_data(vpd, note)
 	note_scn.position = note_gfx.rect.position
-	note_gfx.outline_color = get_note_color(note.id)
-	note_gfx.fill_color = get_note_color(note.id)
-	note_gfx.glow_color = get_note_color(note.id)
 	note_scn.self_modulate = Color(1.19, 1.19, 1.19)
 	note_scn.queue_redraw()
 	var falling_notes = get_parent().get_node("FallingNotes")
