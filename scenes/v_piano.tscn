@@ -1,0 +1,124 @@
+[gd_scene format=3 uid="uid://4glrblg58bjq"]
+
+[ext_resource type="Script" uid="uid://4wlxcda2l7s" path="res://scripts/main.gd" id="1_xeoph"]
+[ext_resource type="Script" uid="uid://dyvxwape63wkc" path="res://scripts/vpiano.gd" id="2_5mgbg"]
+[ext_resource type="Script" uid="uid://dfy33xh3p2suu" path="res://scripts/temp/test_particles.gd" id="3_77t0h"]
+[ext_resource type="Texture2D" uid="uid://ch42r8k8bkgwd" path="res://resources/texture/simpleParticle.png" id="3_sc21w"]
+[ext_resource type="Shader" uid="uid://dormnphsgt3e1" path="res://resources/shaders/vignette.gdshader" id="4_77t0h"]
+[ext_resource type="Shader" uid="uid://biyfqqo4cnvko" path="res://resources/shaders/fog.gdshader" id="4_aa23d"]
+[ext_resource type="Script" uid="uid://bpk8cbcgsrnci" path="res://scripts/vignette.gd" id="5_5mgbg"]
+[ext_resource type="Script" uid="uid://bmhc51o6u4frw" path="res://scripts/fog_rect.gd" id="5_aa23d"]
+[ext_resource type="PackedScene" uid="uid://b4cvvjd38weqb" path="res://scenes/note_hit.tscn" id="9_0prlp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d0ei3"]
+shader = ExtResource("4_aa23d")
+shader_parameter/base_color = Color(0.0803471, 0.1402547, 0.32220683, 1)
+shader_parameter/fade_height = 0.5
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0prlp"]
+seed = 2
+frequency = 0.0063
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p2v4d"]
+noise = SubResource("FastNoiseLite_0prlp")
+seamless = true
+
+[sub_resource type="Curve" id="Curve_5mgbg"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.40905362, 0.13232154), 0.0, 0.0, 0, 0, Vector2(0.508616, 0.54438794), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_sc21w"]
+curve = SubResource("Curve_5mgbg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5mgbg"]
+lifetime_randomness = 0.4
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+gravity = Vector3(0, -58, 0)
+linear_accel_min = -0.49000221
+linear_accel_max = 99.99999
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+tangential_accel_min = -5.000002
+tangential_accel_max = 4.9999976
+scale_min = 0.9
+scale_max = 1.5
+alpha_curve = SubResource("CurveTexture_sc21w")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bshd3"]
+shader = ExtResource("4_77t0h")
+shader_parameter/top_height = 0.258000012255
+shader_parameter/bottom_height = 0.0830000039425
+shader_parameter/top_softness = 1.0
+shader_parameter/bottom_softness = 1.0
+shader_parameter/intensity = 0.9010000427975
+
+[sub_resource type="Environment" id="Environment_s44en"]
+background_mode = 3
+glow_enabled = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_d0ei3"]
+font_size = 32
+font_color = Color(0.094684996, 0.09468501, 0.09468501, 1)
+
+[node name="VPiano" type="Node2D" unique_id=675364801]
+script = ExtResource("1_xeoph")
+
+[node name="FogRect" type="TextureRect" parent="." unique_id=1146154554]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_d0ei3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 512.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("NoiseTexture2D_p2v4d")
+script = ExtResource("5_aa23d")
+
+[node name="FallingNotes" type="Node2D" parent="." unique_id=1670735866]
+
+[node name="TestParticles" type="GPUParticles2D" parent="." unique_id=524082606]
+visible = false
+position = Vector2(1228, 650)
+amount = 5000
+texture = ExtResource("3_sc21w")
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_5mgbg")
+script = ExtResource("3_77t0h")
+
+[node name="VKeyboard" type="Control" parent="." unique_id=584691495]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_5mgbg")
+
+[node name="StreamPlayer" type="AudioStreamPlayer" parent="VKeyboard" unique_id=1093367070]
+
+[node name="LightBar" type="Node2D" parent="." unique_id=1287282222]
+position = Vector2(1000, 500)
+
+[node name="Vignette" type="ColorRect" parent="." unique_id=537411523]
+material = SubResource("ShaderMaterial_bshd3")
+script = ExtResource("5_5mgbg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1246466949]
+environment = SubResource("Environment_s44en")
+
+[node name="Sprite2D2" parent="." unique_id=467538633 instance=ExtResource("9_0prlp")]
+visible = false
+
+[node name="ProjNameLabel" type="Label" parent="." unique_id=246113796]
+offset_left = 23.0
+offset_top = 6.0
+offset_right = 1943.0
+offset_bottom = 94.0
+size_flags_horizontal = 0
+label_settings = SubResource("LabelSettings_d0ei3")
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true

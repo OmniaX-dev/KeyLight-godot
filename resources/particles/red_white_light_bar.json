@@ -1,0 +1,31 @@
+{
+	"particles": {
+		"disable_z": "true",
+		"align_y": "false",
+		"amount": 3000,
+		"lifetime": 1.13,
+		"lifetime_randomness": 0.4,
+		"emission_box_extent": [800.0, 1.0],
+		"emission_ring_height": 1.0,
+		"emission_ring_radius": 8.0,
+		"emission_ring_inner_radius": 6.0,
+		"emission_ring_cone_angle": 90.0,
+		"initial_velocity_min": 0.0,
+		"initial_velocity_max": 0.0,
+		"radial_velocity_min": -150.41,
+		"radial_velocity_max": 204.74,
+		"velocity_damping_min": 0.0,
+		"velocity_damping_max": 10.811,
+		"spread": 45.0,
+		"gravity": [0.0, -98.0],
+		"scale_min": 0.4,
+		"scale_max": 2.0,
+		"scale_curve": [0.0, 1.0, 0.87, 0.75, 1.0, 0.0],
+		"alpha_curve": [0.0, 0.0, 0.52, 0.93, 0.81, 0.08, 1.0, 0.0],
+		"radial_velocity_curve": [0.0, 0.0, 0.12, 0.61, 0.92, 0.42, 1.0, 1.0],
+		"emission_shape": "box",
+		"color": [0.042, 0.0, 0.003],
+		"color_intensity": 3.0,
+		"texture_file_path": "res://resources/texture/simpleParticle.png"
+	}
+}

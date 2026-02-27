@@ -1,0 +1,120 @@
+{
+	"style": {
+		"colors": {
+			"fallingWhiteNote": "0000FF00",
+			"fallingWhiteNoteOutline": "#0000FFFF",
+			"fallingWhiteNoteGlow": "#0000FFFF",
+			"fallingBlackNote": "#0000FF00",
+			"fallingBlackNoteOutline": "#0000FFFF",
+			"fallingBlackNoteGlow": "#0000FFFF",
+			"background": "#000000FF",
+			"whiteKeyPressed": "#4040FFFF",
+			"blackKeyPressed": "#101020FF",
+			"whiteKey": [110, 110, 180],
+			"blackKey": [10, 10, 30],
+			"whiteKeySeparator": [0, 0, 0],
+			"blackKeySeparator": [0, 0, 0],
+			"pianoLine1": "#00005DFF",
+			"pianoLine2": "#00005DFF",
+			"fog": "#0000FF10",
+			"perNote": {
+				"C": {
+					"main": "#86FF6DFF",
+					"outline": "#86FF6DFF",
+					"glow": "#86FF6DFF",
+					"use": "true"
+				},
+				"C#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"D": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"D#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"E": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"F": {
+					"main": "#FF6DE2FF",
+					"outline": "#FF6DE2FF",
+					"glow": "#FF6DE2FF",
+					"use": "true"
+				},
+				"F#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"G": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"G#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"A": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"A#": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				},
+				"B": {
+					"main": [0, 0, 0],
+					"outline": [0, 0, 0],
+					"glow": [0, 0, 0],
+					"use": "false"
+				}
+			}
+		},
+		"dimensions": {
+			"whiteKeyWidth": 40.0,
+			"whiteKeyHeightMultiplier": 8.0,
+			"blackKeyWidth": 22.0,
+			"blackKeyHeightMultiplier": 9.0,
+			"blackKeyOffset": 4.0,
+			"virtualPianoX": 0.0,
+			"glowMargins": [10, 20, 10, 20],
+			"whiteKeyShrinkFactor": 8.0,
+			"blackKeyShrinkFactor": 0.0,
+			"fallingWhiteNoteOutlineWidth": 2,
+			"fallingWhiteNoteBorderRadius": 8.0,
+			"fallingBlackNoteOutlineWidth": 2,
+			"fallingBlackNoteBorderRadius": 8.0,
+			"textureCoordsPosition": [0.0, 0.0],
+			"textureCoordsScale": [1.0, 1.0],
+			"pixelsPerSecond": 250.0,
+			"noteFallingTime_seconds": 4.5
+		},
+		"fog": {
+			"height": 300.0,
+			"fade_percent": 0.8
+		},
+		"usePerNoteColors": "false"
+	}
+}

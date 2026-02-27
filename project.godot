@@ -8,16 +8,20 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="KeyLight"
 run/main_scene="uid://4glrblg58bjq"
-config/features=PackedStringArray("4.5", "C#", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="uid://8hsk56g8a75m"
 
 [autoload]
 
-AudioConverter="*res://cs_scripts/AudioConverter.cs"
+AudioConverter="*res://scripts/cs_scripts/AudioConverter.cs"
 
 [display]
 
@@ -28,6 +32,10 @@ window/vsync/vsync_mode=0
 [dotnet]
 
 project/assembly_name="KeyLight"
+
+[editor]
+
+run/main_run_args="/home/sylar/Desktop/Etude_10_3/Etude_10_3.klp"
 
 [input]
 

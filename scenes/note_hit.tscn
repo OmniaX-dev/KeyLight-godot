@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://b4cvvjd38weqb"]
+
+[ext_resource type="Texture2D" uid="uid://cpwn34vx30lw8" path="res://resources/texture/test.png" id="1_2ryo4"]
+[ext_resource type="Script" uid="uid://bkbwj1umkwf2h" path="res://scripts/note_hit.gd" id="2_g6jp0"]
+
+[sub_resource type="Gradient" id="Gradient_g6jp0"]
+offsets = PackedFloat32Array(0, 0.9700156, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.045560777, 0.045560777, 0.045560777, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8d6vv"]
+gradient = SubResource("Gradient_g6jp0")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9551282, 0.507265)
+
+[node name="Sprite2D" type="Sprite2D" unique_id=467538633]
+self_modulate = Color(0.7231341, 1.0189098, 1.6603382, 1)
+scale = Vector2(0.15039063, 0.15039063)
+texture = ExtResource("1_2ryo4")
+script = ExtResource("2_g6jp0")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=308405703]
+scale = Vector2(6.6493506, 6.6493506)
+energy = 1.31
+texture = SubResource("GradientTexture2D_8d6vv")
