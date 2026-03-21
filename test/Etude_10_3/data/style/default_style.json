@@ -1,17 +1,18 @@
 {
 	"style": {
 		"colors": {
-			"fallingWhiteNote": "111111FF",
-			"fallingBlackNote": "#290000FF",
+			"fallingWhiteNote": "0000FFFF",
+			"fallingBlackNote": "#0000FFFF",
 			"background": "#000000FF",
-			"whiteKeyPressed": "#69D2FFFF",
-			"blackKeyPressed": "#1483B3FF",
-			"whiteKey": [180, 130, 130],
-			"blackKey": [30, 5, 5],
+			"whiteKeyPressed": "#4040FFFF",
+			"blackKeyPressed": "#101020FF",
+			"whiteKey": [110, 110, 180],
+			"blackKey": [10, 10, 30],
 			"whiteKeySeparator": [0, 0, 0],
 			"blackKeySeparator": [0, 0, 0],
-			"pianoLine1": "#7D0000FF",
-			"pianoLine2": "#7D0000FF",
+			"pianoLine1": "#00005DFF",
+			"pianoLine2": "#00005DFF",
+			"fog": "#0000FF10",
 			"perNote": {
 				"C": {
 					"color": "#86FF6DFF",
@@ -82,17 +83,12 @@
 			"pixelsPerSecond": 250.0,
 			"noteFallingTime_seconds": 4.5
 		},
-		"blur": {
-			"type": "kawase",
-			"passes": 6,
-			"startRadius": 1.0,
-			"increment": 2.8,
-			"threshold": 0.2,
-			"bloomIntensity": 1.03,
-			"resolutionSubdivider": 1
+		"fog": {
+			"height": 300.0,
+			"fade_percent": 0.8
 		},
 		"usePerNoteColors": "false",
-		"useFilledNotes": "false",
-		"useNoteColorOnPressed": "false"
+		"useFilledNotes": "true",
+		"useNoteColorOnPressed": "true"
 	}
 }

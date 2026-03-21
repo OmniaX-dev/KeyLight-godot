@@ -33,8 +33,13 @@ var first_note_start_time : float = 0.0
 
 # Builtin methods
 func _ready() -> void:
-	vpk.initialize(vpd)
 	vpr.initialize(vpd)
+	vpk.initialize(vpd, vpr)
+	for pk in vpk.piano_keys:
+		note_on_signal.connect(pk.hit_effect.on_note_on)
+		note_off_signal.connect(pk.hit_effect.on_note_off)
+		vkeyboard_size_updated.connect(pk.hit_effect.on_window_resized)
+		add_child(pk.hit_effect)
 	
 	midi_start_signal.connect(on_midi_start)
 	note_on_signal.connect(on_note_on)
@@ -107,6 +112,7 @@ func calculate_falling_notes(current_time : float):
 		elif y + h >= vpd.vpy():
 			vpk.piano_keys[info.key_index].pressed = true
 			vpk.piano_keys[info.key_index].pressed_force = Common.calc_pressed_velocity(vpd, note.velocity)
+			vpk.piano_keys[info.key_index].color = vpd.get_note_color(info, note.id)
 			note_on_signal.emit(note)
 			if not first_note_played:
 				midi_start_signal.emit(note)
@@ -135,6 +141,7 @@ func calculate_falling_notes(current_time : float):
 		elif y + h >= vpd.vpy():
 			vpk.piano_keys[info.key_index].pressed = true
 			vpk.piano_keys[info.key_index].pressed_force = Common.calc_pressed_velocity(vpd, note.velocity)
+			vpk.piano_keys[info.key_index].color = vpd.get_note_color(info, note.id)
 			note_on_signal.emit(note)
 			if not first_note_played:
 				midi_start_signal.emit(note)

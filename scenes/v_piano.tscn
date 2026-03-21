@@ -8,7 +8,6 @@
 [ext_resource type="Shader" uid="uid://biyfqqo4cnvko" path="res://resources/shaders/fog.gdshader" id="4_aa23d"]
 [ext_resource type="Script" uid="uid://bpk8cbcgsrnci" path="res://scripts/vignette.gd" id="5_5mgbg"]
 [ext_resource type="Script" uid="uid://bmhc51o6u4frw" path="res://scripts/fog_rect.gd" id="5_aa23d"]
-[ext_resource type="PackedScene" uid="uid://b4cvvjd38weqb" path="res://scenes/note_hit.tscn" id="9_0prlp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d0ei3"]
 shader = ExtResource("4_aa23d")
@@ -116,6 +115,3 @@ metadata/_edit_use_anchors_ = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1246466949]
 environment = SubResource("Environment_s44en")
-
-[node name="Sprite2D2" parent="." unique_id=467538633 instance=ExtResource("9_0prlp")]
-visible = false

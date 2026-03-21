@@ -35,7 +35,7 @@ project/assembly_name="KeyLight"
 
 [editor]
 
-run/main_run_args="/home/sylar/Desktop/Etude_10_3/Etude_10_3.klp"
+run/main_run_args="/home/sylar/GitRepos/KeyLight-godot/test/Etude_10_3/Etude_10_3.klp"
 
 [input]
 

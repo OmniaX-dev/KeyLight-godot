@@ -30,6 +30,9 @@ var falling_black_note_outline_width: int = 0
 var falling_black_note_border_radius: float = 0.0
 var fog_height: float = 0.0
 var fog_fade_percent: float = 0.0
+var use_per_note_colors: bool = false
+var use_filled_notes: bool = true
+var use_note_color_on_pressed: bool = false
 
 # --- Colors -----------------------------------------------------------------
 var background_color: Color
@@ -43,8 +46,6 @@ var falling_white_note_color: Color
 var falling_black_note_color: Color
 var piano_line_color1: Color
 var piano_line_color2: Color
-var use_per_note_colors: bool = false
-var use_filled_notes: bool = true
 var fog_color: Color
 var per_note_colors = []   # size 12
 var per_note_colors_use = []   # size 12
@@ -204,6 +205,7 @@ func load_from_json(styleJson : JsonFile):
 
 	self.use_per_note_colors = styleJson.get_bool("style.usePerNoteColors");
 	self.use_filled_notes = styleJson.get_bool("style.useFilledNotes");
+	self.use_note_color_on_pressed = styleJson.get_bool("style.useNoteColorOnPressed");
 
 	self.falling_white_note_color = styleJson.get_color("style.colors.fallingWhiteNote");
 	self.falling_black_note_color = styleJson.get_color("style.colors.fallingBlackNote");

@@ -40,9 +40,6 @@ func _ready() -> void:
 	vpiano.offset_right = 0.0
 	vpiano.offset_bottom = 0.0
 	vpiano.set_deferred("size", root_size)
-	
-	var partJsonFile = JsonFile.new()
-	partJsonFile.load("res://resources/particles/default_light_bar.json")
 
 	vpiano.vkeyboard_size_updated.connect(on_window_resized)
 	get_window().size_changed.connect(vpiano.on_window_resized)
