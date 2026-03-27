@@ -2,26 +2,10 @@
 	"project": {
 		"name": "Chopin - Etude Op. 10 No. 3",
 		"audio": {
-			"midiFile": "",
+			"midiFile": "@@/music/notes.mid",
 			"audioFile": "@@/music/audio.mp3",
-			"voiceCount": 3,
-			"voices": [
-				{
-					"name": "lh_1",
-					"path": "@@/music/voices/lh_voice_1.mid",
-					"color": [128, 0, 0]
-				},
-				{
-					"name": "rh_1",
-					"path": "@@/music/voices/rh_voice_1.mid",
-					"color": [0, 128, 0]
-				},
-				{
-					"name": "rh_2",
-					"path": "@@/music/voices/rh_voice_2.mid",
-					"color": [0, 0, 128]
-				}
-			]
+			"voiceCount": 0,
+			"voices": []
 		},
 		"graphics": {
 			"styleFile": "@@/style/default_style.json",
@@ -29,7 +13,7 @@
 			"particlesFile": "@@/particles/default_light_bar.json",
 		},
 		"useBackgroundImage": "false",
-		"useMultipleVoices": "true"
+		"useMultipleVoices": "false"
 	}
 }
 

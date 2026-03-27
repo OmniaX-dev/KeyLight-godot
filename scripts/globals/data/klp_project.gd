@@ -82,6 +82,7 @@ func load_midi(vpd : VirtualPianoData) -> Array[NoteEvent]:
 		return []
 	if not use_multiple_voices:
 		midi_notes = MidiParser.parse_file(midi_file_path)
+		#NoteEvent.write_notes_to_file("/home/sylar/Desktop/gdout.txt", midi_notes)
 		for note in midi_notes:
 			note.start_time += vpd.falling_time_s
 			note.end_time += vpd.falling_time_s
