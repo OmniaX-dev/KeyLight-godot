@@ -1,18 +1,18 @@
 {
 	"style": {
 		"colors": {
-			"fallingWhiteNote": "0000FFFF",
-			"fallingBlackNote": "#0000FFFF",
+			"fallingWhiteNote": "#ED94FFFF",
+			"fallingBlackNote": "#620075FF",
 			"background": "#000000FF",
 			"whiteKeyPressed": "#4040FFFF",
 			"blackKeyPressed": "#101020FF",
-			"whiteKey": [110, 110, 180],
-			"blackKey": [10, 10, 30],
+			"whiteKey": "#FFD4D4",
+			"blackKey": "#300000",
 			"whiteKeySeparator": [0, 0, 0],
 			"blackKeySeparator": [0, 0, 0],
-			"pianoLine1": "#00005DFF",
-			"pianoLine2": "#00005DFF",
-			"fog": "#0000FF10",
+			"pianoLine1": "#FF0000",
+			"pianoLine2": "#FF0000",
+			"fog": "#FF004020",
 			"perNote": {
 				"C": {
 					"color": "#86FF6DFF",
@@ -62,7 +62,8 @@
 					"color": [0, 0, 0],
 					"use": "false"
 				}
-			}
+			},
+			"perKey": ["#FF0000", "#8000FF"]
 		},
 		"dimensions": {
 			"whiteKeyWidth": 40.0,

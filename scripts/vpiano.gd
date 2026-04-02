@@ -50,6 +50,9 @@ func _ready() -> void:
 		vpr.open_music_file(project_file.audio_file_path)
 		$StreamPlayer.stream = vpr.audioManager.audio_stream
 		$StreamPlayer.volume_db = -4
+		if project_file.use_background_image and project_file.background_image_path.strip_edges() != "":
+			get_parent().get_node("BackgroundSprite").texture = Common.load_external_texture(project_file.background_image_path.strip_edges())
+			get_parent().get_node("BackgroundSprite").modulate = Color(vpd.fog_color.lightened(0.8), project_file.background_opacity)
 
 	queue_redraw()
 
@@ -66,6 +69,24 @@ func _draw():
 
 
 # Update logic
+func reposition_background():
+	if not project_file.is_loaded():
+		return
+	if not project_file.use_background_image:
+		return
+	if project_file.background_image_path.strip_edges() == "":
+		return
+	var bg : Sprite2D = get_parent().get_node("BackgroundSprite")
+	var tex : Texture2D = bg.texture
+	var window_width = get_viewport_rect().size.x
+	var tex_height = tex.get_height()
+	var tex_width = tex.get_width()
+
+	var uniform_scale = window_width / tex_width
+	bg.scale = Vector2(uniform_scale, uniform_scale)
+	bg.position = Vector2(vpd.vpx(), vpd.vpy() - (tex_height * uniform_scale))
+	
+
 func update_visualization(current_time: float):
 	# --- Remove notes that have ended ---
 	while active_falling_notes.size() > 0 and current_time > (active_falling_notes[0].end_time + 0.05):
@@ -216,6 +237,7 @@ func on_window_resized():
 	vpd.update_scale(window_size.x, window_size.y)
 	queue_redraw()
 	vkeyboard_size_updated.emit()
+	reposition_background()
 
 func on_midi_start(_note : NoteEvent):
 	$StreamPlayer.play(vpr.audioManager.auto_sound_start)

@@ -50,6 +50,7 @@ var fog_color: Color
 var per_note_colors = []   # size 12
 var per_note_colors_use = []   # size 12
 var per_id_colors : Dictionary[int, Color] = { }
+var per_key_colors = []
 
 
 # --- Methods ----------------------------------------------------------------
@@ -161,6 +162,8 @@ func get_note_color(noteInfo : NoteInfo, note_id = -1) -> Color:
 			return per_id_colors[note_id]
 	if use_per_note_colors:
 		return per_note_colors[noteInfo.note_in_octave]
+	if per_key_colors.size() == 88:
+		return per_key_colors[noteInfo.key_index]
 	if noteInfo.is_white_key():
 		return falling_white_note_color
 	return falling_black_note_color
@@ -180,6 +183,18 @@ func recalc__key_offsets():
 		else:
 			var x := vpx() + ((white_count - 1) * white_key_w() + (white_key_w() - black_key_w() / 2.0)) - black_key_off()
 			_key_offsets[key_index] = x
+
+func get_rainbow_gradient() -> Array:
+	return Common.make_linear_multi_gradient(
+		[
+			Color.html("#FF0000"), # Red
+			Color.html("#FF7F00"), # Orange
+			Color.html("#FFFF00"), # Yellow
+			Color.html("#00FF00"), # Green
+			Color.html("#0000FF"), # Blue
+			Color.html("#4B0082"), # Indigo
+			Color.html("#8B00FF")  # Violet
+		], 88)
 
 func load_from_json(styleJson : JsonFile):
 	self.white_key_width = styleJson.get_double("style.dimensions.whiteKeyWidth");
@@ -219,6 +234,17 @@ func load_from_json(styleJson : JsonFile):
 	self.piano_line_color1 = styleJson.get_color("style.colors.pianoLine1");
 	self.piano_line_color2 = styleJson.get_color("style.colors.pianoLine2");
 	self.fog_color = styleJson.get_color("style.colors.fog");
+	var gradient = styleJson.get_string("style.colors.perKey").strip_edges().to_lower()
+	if gradient == "rainbow":
+		self.per_key_colors = get_rainbow_gradient()
+	else:
+		var arr = styleJson.get_color_array("style.colors.perKey")
+		if arr.size() == 88:
+			self.per_key_colors = arr
+		elif arr.size() > 1 and arr.size() < 88:
+			self.per_key_colors = Common.make_linear_multi_gradient(arr, 88)
+		else:
+			self.per_key_colors = []
 
 	self.per_note_colors[NoteColor.C] = styleJson.get_color("style.colors.perNote.C.color");
 	self.per_note_colors_use[NoteColor.C] = styleJson.get_bool("style.colors.perNote.C.use");

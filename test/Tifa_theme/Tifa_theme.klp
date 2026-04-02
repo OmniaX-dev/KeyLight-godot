@@ -1,6 +1,6 @@
 {
 	"project": {
-		"name": "Chopin - Etude Op. 10 No. 3",
+		"name": "Final Fantasy VII Soundtrack - Tifa's Theme",
 		"audio": {
 			"midiFile": "@@/music/notes.mid",
 			"audioFile": "@@/music/audio.mp3",
@@ -9,10 +9,11 @@
 		},
 		"graphics": {
 			"styleFile": "@@/style/default_style.json",
-			"backgroundImageFile": "@@/texture/chop_bg.png",
+			"backgroundImageFile": "@@/texture/background.png",
 			"particlesFile": "@@/particles/default_light_bar.json",
+			"backgroundOpacity": 0.3
 		},
-		"useBackgroundImage": "false",
+		"useBackgroundImage": "true",
 		"useMultipleVoices": "false"
 	}
 }

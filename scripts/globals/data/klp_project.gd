@@ -18,6 +18,7 @@ var background_image_path : String = ""
 var use_background_image : bool = false
 var use_multiple_voices : bool = false
 var loaded : bool = false
+var background_opacity : float = 0.0
 
 
 func load(klp_file_path : String) -> bool:
@@ -48,6 +49,7 @@ func load(klp_file_path : String) -> bool:
 	background_image_path = klpJson.get_string("project.graphics.backgroundImageFile")
 	use_background_image = klpJson.get_bool("project.useBackgroundImage")
 	use_multiple_voices = klpJson.get_bool("project.useMultipleVoices")
+	background_opacity = klpJson.get_double("project.graphics.backgroundOpacity")
 	midi_file_path = midi_file_path.replace("@@", base_path + "/data")
 	audio_file_path = audio_file_path.replace("@@", base_path + "/data")
 	style_file_path = style_file_path.replace("@@", base_path + "/data")

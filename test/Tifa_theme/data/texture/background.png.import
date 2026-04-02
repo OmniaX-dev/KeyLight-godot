@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://swe413qqnmkf"
-path="res://.godot/imported/chop_bg.png-7bcea69283a7711c7307fa11f8c8a08f.ctex"
+uid="uid://cuy71cx3cg35m"
+path="res://.godot/imported/background.png-d846bd9db5108137db6a72ccc723f5bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://test/Etude_10_3/data/texture/chop_bg.png"
-dest_files=["res://.godot/imported/chop_bg.png-7bcea69283a7711c7307fa11f8c8a08f.ctex"]
+source_file="res://test/Tifa_theme/data/texture/background.png"
+dest_files=["res://.godot/imported/background.png-d846bd9db5108137db6a72ccc723f5bf.ctex"]
 
 [params]
 

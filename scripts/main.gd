@@ -58,6 +58,7 @@ func handle_input():
 func on_window_resized():
 	var window_size = get_viewport().get_visible_rect().size
 	$Vignette.set_deferred("size", window_size)
+	$BackgroundSprite.position = Vector2(vpd.vpy(), vpd.vpy())
 
 func _process(_delta: float) -> void:
 	handle_input()

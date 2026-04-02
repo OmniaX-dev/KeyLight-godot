@@ -64,6 +64,9 @@ glow_enabled = true
 [node name="VPiano" type="Node2D" unique_id=675364801]
 script = ExtResource("1_xeoph")
 
+[node name="BackgroundSprite" type="Sprite2D" parent="." unique_id=2147172195]
+centered = false
+
 [node name="FogRect" type="TextureRect" parent="." unique_id=1146154554]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_d0ei3")
